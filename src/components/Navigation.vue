@@ -13,7 +13,7 @@
         <v-list-item
           v-for="item in items"
           :key="item.title"
-          link
+          :to="item.path"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -31,19 +31,17 @@
     </v-app-bar>
 
     <v-content>
-      <v-container fluid>
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col cols="10">
-            <v-card>
-
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
+          <v-container fluid>
+            <v-row
+              align="center"
+              justify="center"
+            >
+              <v-col cols="10">
+                <router-view></router-view>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-content>
 
     <v-footer app>
       <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
@@ -56,9 +54,9 @@
 export default {
  data: () => ({
    items: [
-    { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-    { title: 'Roster', icon: 'mdi-account-box-multiple-outline' },
-    { title: 'About', icon: 'mdi-help-box' },
+    { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/'},
+    { title: 'Roster', icon: 'mdi-account-box-multiple-outline', path: '/roster' },
+    { title: 'About', icon: 'mdi-help-box', path: '/' },
    ]
  }),
  created () {
