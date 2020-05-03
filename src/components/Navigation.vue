@@ -36,7 +36,7 @@
               align="center"
               justify="center"
             >
-              <v-col cols="10">
+              <v-col cols="11">
                 <router-view></router-view>
               </v-col>
             </v-row>
@@ -55,6 +55,7 @@ export default {
  data: () => ({
    items: [
     { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/'},
+    { title: 'Portal Management', icon: 'mdi-cogs', path: '/'},
     { title: 'Roster', icon: 'mdi-account-box-multiple-outline', path: '/roster' },
     { title: 'About', icon: 'mdi-help-box', path: '/' },
    ]
