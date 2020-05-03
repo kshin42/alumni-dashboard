@@ -80,7 +80,7 @@ func RespondLambda(request json.RawMessage) (*Response, error) {
 		TableName: aws.String("members"),
 		Key: map[string]*dynamodb.AttributeValue{
 			"email": {
-				N: aws.String(reqBody.Email),
+				S: aws.String(reqBody.Email),
 			},
 		},
 	})
