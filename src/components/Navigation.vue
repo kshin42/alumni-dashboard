@@ -55,9 +55,9 @@ export default {
  data: () => ({
    items: [
     { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/'},
-    { title: 'Portal Management', icon: 'mdi-cogs', path: '/'},
+    { title: 'Portal Management', icon: 'mdi-cogs', path: '/manage'},
     { title: 'Roster', icon: 'mdi-account-box-multiple-outline', path: '/roster' },
-    { title: 'About', icon: 'mdi-help-box', path: '/' },
+    { title: 'About', icon: 'mdi-help-box', path: '/about' },
    ]
  }),
  created () {
