@@ -37,11 +37,6 @@ type Header struct {
 	Allow                    string `json:"Allow"`
 }
 
-type User struct {
-	Email     string `json:"email"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-}
 
 func main() {
 	lambda.Start(RespondLambda)
@@ -89,12 +84,12 @@ func RespondLambda(request json.RawMessage) (*Response, error) {
 		return createResponse(500, "Error fetching member from db", err)
 	}
 
-	var user User
-	if err = dynamodbattribute.UnmarshalMap(result.Item, &user); err != nil {
+	var userInfo interface{}
+	if err = dynamodbattribute.UnmarshalMap(result.Item, &userInfo); err != nil {
 		return createResponse(500, "Error unmarshalling dynamo response", err)
 	}
 
-	jsonPayload, err := json.Marshal(user)
+	jsonPayload, err := json.Marshal(userInfo)
 	if err != nil {
 		return createResponse(500, "Error json marshalling users", err)
 	}
