@@ -13,7 +13,7 @@
             <v-card-subtitle>{{ test.email }}</v-card-subtitle>
             <v-card-actions>
               <v-btn color="red" text @click="openMailDialog()">
-                <v-icon>mdi-email</v-icon>
+                <i class="fas fa-envelope"></i>
               </v-btn>
             </v-card-actions>
           </v-card>
