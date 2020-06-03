@@ -57,7 +57,7 @@ export default {
     { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/'},
     { title: 'Portal Management', icon: 'mdi-cogs', path: '/manage'},
     { title: 'Roster', icon: 'mdi-account-box-multiple-outline', path: '/roster' },
-    { title: 'About', icon: 'mdi-help-box', path: '/about' },
+    { title: 'User Import', icon: 'mdi-help-box', path: '/userImport' },
    ]
  }),
  created () {
