@@ -1,15 +1,18 @@
 <template>
   <v-app>
+    <v-app-bar :clipped-left=true color="secondary" dark app class="hidden-sm-and-down">
+      <v-icon style="margin-right: 10px">fab fa-connectdevelop</v-icon>
+      <v-toolbar-title>Telam</v-toolbar-title>
+    </v-app-bar>
+
     <v-navigation-drawer
-      clipped
+      color="secondary"
       permanent
-      app
-      overflow
+      dark
+      expand-on-hover
+      absolute
+      class="hidden-sm-and-up"
     >
-    <v-list
-        dense
-        nav
-      >
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -23,12 +26,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
     </v-navigation-drawer>
-
-    <v-app-bar :clipped-left=true color="#730000" app>
-      <v-toolbar-title>Alpha Sigma Phi - Alumni Dashboard </v-toolbar-title>
-    </v-app-bar>
 
     <v-content>
           <v-container fluid>
@@ -36,16 +34,10 @@
               align="center"
               justify="center"
             >
-              <v-col cols="11">
-                <router-view></router-view>
-              </v-col>
+              <router-view></router-view>
             </v-row>
           </v-container>
         </v-content>
-
-    <v-footer app>
-      <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -53,15 +45,14 @@
 <script>
 export default {
  data: () => ({
-   items: [
-    { title: 'Dashboard', icon: 'mdi-view-dashboard', path: '/'},
-    { title: 'Portal Management', icon: 'mdi-cogs', path: '/manage'},
-    { title: 'Roster', icon: 'mdi-account-box-multiple-outline', path: '/roster' },
-    { title: 'User Import', icon: 'mdi-help-box', path: '/userImport' },
+  dialog: false,
+  items: [
+    { title: 'Dashboard', icon: 'fas fa-th-large', path: '/'},
+    { title: 'Portal Management', icon: 'fas fa-lock', path: '/manage'},
+    { title: 'Roster', icon: 'fas fa-clipboard-list', path: '/roster' },
+    { title: 'User Import', icon: 'fas fa-user-plus', path: '/userImport' },
    ]
- }),
- created () {
-      this.$vuetify.theme.dark = true
- },
+ })
+
 }
 </script>

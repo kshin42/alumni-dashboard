@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Navigation />
         <h1>User Import</h1>
     </div>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Navigation />
     <v-row>
     <h1>Roster</h1>
     <v-spacer></v-spacer>
