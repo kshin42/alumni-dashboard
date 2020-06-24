@@ -27,7 +27,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	}
 
 	var member Member
-	err = json.Unmarshal(reqBytes, &member)
+	err = json.Unmarshal(reqBytes, &member.fields)
 	if err != nil {
 		log.Error().Msg("Error unmarshalling request body")
 		return cm.CreateResponse(400, "Bad Member Object", err)
@@ -38,15 +38,15 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to Create Member", err)
 	}
 
-	av, err := dynamodbattribute.MarshalMap(member)
+	av, err := dynamodbattribute.MarshalMap(member.fields)
 	if err != nil {
 		log.Error().Msg("Error marshalling input")
 		return cm.CreateResponse(500, "Failed to Marshal db input object", err)
 	}
 
-    input := &dynamodb.PutItemInput {
-		Item: av,
-		TableName: aws.String("sup"),
+	input := &dynamodb.PutItemInput{
+		Item:      av,
+		TableName: aws.String("members"),
 	}
 
 	_, err = svc.PutItem(input)
@@ -54,6 +54,6 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		log.Error().Msg("Failed to save member")
 		return cm.CreateResponse(500, "Failed to save member", err)
 	}
-	
+
 	return cm.CreateResponse(200, "Successfully Created Member", nil)
 }

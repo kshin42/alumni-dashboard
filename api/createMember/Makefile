@@ -1,9 +1,9 @@
 build:
 	$(MAKE) clean
 	env GOOS=linux go build .
-	zip main.zip getMember
+	zip main.zip createMember
 clean:
-	rm -f main.zip getMember
+	rm -f main.zip createMember
 # push:
 # 	$(MAKE) clean
 # 	$(MAKE) build
