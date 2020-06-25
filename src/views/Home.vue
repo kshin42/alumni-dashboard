@@ -9,7 +9,7 @@
         <h2 class="subheader">Networking Made Easy</h2>
       </v-row>
       <v-row align="center" justify="center">
-        <v-btn id="startbutton">Sign UP</v-btn>
+        <v-btn id="startbutton" to="/createProfile">Sign Up</v-btn>
       </v-row>
     </v-container>
     </v-content>

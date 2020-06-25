@@ -38,8 +38,7 @@ export default {
   items: [
     { title: 'Dashboard', icon: 'fas fa-th-large', path: '/'},
     { title: 'Portal Management', icon: 'fas fa-lock', path: '/manage'},
-    { title: 'Roster', icon: 'fas fa-clipboard-list', path: '/roster' },
-    { title: 'User Import', icon: 'fas fa-user-plus', path: '/userImport' },
+    { title: 'Roster', icon: 'fas fa-clipboard-list', path: '/roster' }
    ]
  })
 
