@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: CreateOrg
+    component: Home
   },
   {
     path: '/createOrg',

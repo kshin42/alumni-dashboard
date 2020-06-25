@@ -27,17 +27,6 @@
           </v-list-item-content>
         </v-list-item>
     </v-navigation-drawer>
-
-    <v-content>
-          <v-container fluid>
-            <v-row
-              align="center"
-              justify="center"
-            >
-              <router-view></router-view>
-            </v-row>
-          </v-container>
-        </v-content>
   </v-app>
 </template>
 
