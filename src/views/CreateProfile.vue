@@ -11,8 +11,17 @@
                 <v-row align="center" justify="center">
                     <v-form>
                         <v-row>
-                            <v-col cols="12">
-                                <v-text-field label="Solo" placeholder="First Name" solo></v-text-field>
+                            <v-col cols="6">
+                                <v-text-field dark label="First Name" outlined ></v-text-field>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field dark label="Last Name" outlined ></v-text-field>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field dark label="Email" outlined ></v-text-field>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-text-field dark label="Password" outlined ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -30,9 +39,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.text-input {
-    color: white;
-}
-</style>
