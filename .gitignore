@@ -22,4 +22,6 @@ yarn-error.log*
 
 # Go Compliation Files
 getAlumni
+createMember
+getMember
 main.zip
