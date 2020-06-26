@@ -3,13 +3,15 @@
     <v-content>
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
+        <v-icon dark x-large class="homeLogo">fab fa-connectdevelop</v-icon>
         <h1>Telam</h1>
       </v-row>
       <v-row align="center" justify="center">
         <h2 class="subheader">Networking Made Easy</h2>
       </v-row>
       <v-row align="center" justify="center">
-        <v-btn id="startbutton" to="/createProfile">Sign Up</v-btn>
+        <v-btn class="homeBtn" to="/signIn">Sign In</v-btn>
+        <v-btn class="homeBtn" color="primary" to="/createProfile">Sign Up</v-btn>
       </v-row>
     </v-container>
     </v-content>
@@ -31,11 +33,16 @@ h1 {
 
 h2 {
   color: white;
+  margin-bottom: 1em;
 }
 
-#startbutton {
-  width: 100px !important;
-  margin-top: 2em;
+.homeLogo {
+  padding-top: 200px;
+  margin-right: 15px;
+}
+
+.homeBtn {
+  margin: 2em;
 }
 
 .header h1 {

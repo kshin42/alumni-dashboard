@@ -1,24 +1,18 @@
 <template>
     <div class="bg">
-        <v-content>
+        <v-content>     
             <v-container class="fill-height" fluid>
                 <v-btn to="/" icon color="white"><v-icon dark large style="margin-right: 10px">fab fa-connectdevelop</v-icon></v-btn>
                 <v-toolbar-title style="color:white;" >Telam</v-toolbar-title>
                 <v-row align="center" justify="center">
-                    <h1>Create Profile</h1>
+                    <h1>Login</h1>
                 </v-row>
                 <v-row align="center" justify="center">
-                    <h2 class="subheader">Enter in your information</h2>
+                    <h2 class="subheader">Enter in your login information</h2>
                 </v-row>
                 <v-row align="center" justify="center">
                     <v-form id="createForm">
                         <v-row>
-                            <v-col cols="6">
-                                <v-text-field dark label="First Name" outlined ></v-text-field>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-text-field dark label="Last Name" outlined ></v-text-field>
-                            </v-col>
                             <v-col cols="6">
                                 <v-text-field dark label="Email" outlined ></v-text-field>
                             </v-col>
@@ -27,10 +21,10 @@
                             </v-col>
                         </v-row>
                         <v-row align="center" justify="center">
-                            <v-btn>Sign Up</v-btn>
+                            <v-btn>Login</v-btn>
                         </v-row>
                         <v-row align="center" justify="center">
-                            <p style="color:white;margin-top:1em;">Already have an account? <v-btn x-small text to="/signIn">Sign In</v-btn></p>
+                            <p style="color:white;margin-top:1em;">Don't have an account? <v-btn x-small text to="/createProfile">Sign Up</v-btn></p>
                         </v-row>
                     </v-form>
                 </v-row>
@@ -51,9 +45,5 @@ export default {
 <style scoped>
 #createForm {
     margin-top: 25px;
-}
-
-button {
-    font-size: .5em;
 }
 </style>
