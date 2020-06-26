@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div>
     <v-content>
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
@@ -47,17 +47,6 @@ h2 {
 
 .header h1 {
   font-size: 40px;
-}
-
-.bg {
-  background: #4281A4;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 
 .container {

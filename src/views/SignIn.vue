@@ -1,5 +1,5 @@
 <template>
-    <div class="bg">
+    <div>
         <v-content>     
             <v-container class="fill-height" fluid>
                 <v-btn to="/" icon color="white"><v-icon dark large style="margin-right: 10px">fab fa-connectdevelop</v-icon></v-btn>
