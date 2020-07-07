@@ -9,11 +9,26 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/rs/zerolog/log"
 
+	"fmt"
+
 	cm "alumni-dashboard/api/common"
 )
 
 type Member struct {
-	fields interface{}
+	PK           string
+	SK           string
+	Email        string
+	PasswordHash string
+	FirstName    string
+	LastName     string
+}
+
+type Payload struct {
+	OrgCode   string `json:orgCode`
+	FirstName string `json:firstName`
+	LastName  string `json:lastname`
+	Email     string `json:email`
+	Password  string `json:password`
 }
 
 func main() {
@@ -26,8 +41,8 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(400, "Bad Request", err)
 	}
 
-	var member Member
-	err = json.Unmarshal(reqBytes, &member.fields)
+	var payload Payload
+	err = json.Unmarshal(reqBytes, &payload)
 	if err != nil {
 		log.Error().Msg("Error unmarshalling request body")
 		return cm.CreateResponse(400, "Bad Member Object", err)
@@ -38,7 +53,18 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to Create Member", err)
 	}
 
-	av, err := dynamodbattribute.MarshalMap(member.fields)
+	var member Member
+	member.PK = fmt.Sprintf("USER#%s",payload.Email)
+	member.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
+	member.Email = payload.Email
+	member.FirstName = payload.FirstName
+	member.LastName = payload.LastName
+	member.PasswordHash, err = cm.HashPassword(payload.Password)
+	if err != nil {
+		return cm.CreateResponse(500, "Failed to Create Member", err)
+	}
+
+	av, err := dynamodbattribute.MarshalMap(member)
 	if err != nil {
 		log.Error().Msg("Error marshalling input")
 		return cm.CreateResponse(500, "Failed to Marshal db input object", err)
@@ -46,7 +72,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 
 	input := &dynamodb.PutItemInput{
 		Item:      av,
-		TableName: aws.String("members"),
+		TableName: aws.String("Alumni-Dashboard"),
 	}
 
 	_, err = svc.PutItem(input)

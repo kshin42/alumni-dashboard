@@ -10,8 +10,8 @@
         <h2 class="subheader">Networking Made Easy</h2>
       </v-row>
       <v-row align="center" justify="center">
-        <v-btn class="homeBtn" to="/signIn">Sign In</v-btn>
-        <v-btn class="homeBtn" color="primary" to="/createProfile">Sign Up</v-btn>
+        <v-btn class="homeBtn" to="/createProfile">Sign Up</v-btn>
+        <v-btn class="homeBtn" color="primary" to="/signIn">Login</v-btn>
       </v-row>
     </v-container>
     </v-content>
