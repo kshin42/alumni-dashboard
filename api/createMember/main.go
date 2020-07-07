@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/rs/zerolog/log"
 
+	"errors"
 	"fmt"
 
 	cm "alumni-dashboard/api/common"
@@ -24,11 +25,11 @@ type Member struct {
 }
 
 type Payload struct {
-	OrgCode   string `json:orgCode`
-	FirstName string `json:firstName`
-	LastName  string `json:lastname`
-	Email     string `json:email`
-	Password  string `json:password`
+	OrgCode   string `json:"orgCode"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 func main() {
@@ -50,18 +51,26 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 
 	svc, err := cm.GetDBClient()
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to Create Member", err)
+		return cm.CreateResponse(500, "Failed to Create User", err)
 	}
 
 	var member Member
-	member.PK = fmt.Sprintf("USER#%s",payload.Email)
+	member.PK = fmt.Sprintf("USER#%s", payload.Email)
 	member.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
 	member.Email = payload.Email
 	member.FirstName = payload.FirstName
 	member.LastName = payload.LastName
 	member.PasswordHash, err = cm.HashPassword(payload.Password)
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to Create Member", err)
+		return cm.CreateResponse(500, "Failed to Create User", err)
+	}
+
+	var checkMember Member
+	checkMember.PK = fmt.Sprintf("USER#%s", payload.Email)
+	checkMember.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
+	err = checkExistingUser(checkMember, svc)
+	if err != nil {
+		return cm.CreateResponse(500, "Failed to Create User", err)
 	}
 
 	av, err := dynamodbattribute.MarshalMap(member)
@@ -82,4 +91,27 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	}
 
 	return cm.CreateResponse(200, "Successfully Created Member", nil)
+}
+
+func checkExistingUser(member Member, svc *dynamodb.DynamoDB) error {
+	result, err := svc.GetItem(&dynamodb.GetItemInput{
+		Key: map[string]*dynamodb.AttributeValue{
+			"PK": {
+				S: aws.String(member.PK),
+			},
+			"SK": {
+				S: aws.String(member.SK),
+			}},
+		TableName: aws.String("Alumni-Dashboard"),
+	})
+	if err != nil {
+		log.Error().Msg("Failed to check if member exists")
+		return err
+	}
+
+	if len(result.Item) == 0 {
+		return nil
+	}
+
+	return errors.New("User Already Exists: "+member.PK)
 }
