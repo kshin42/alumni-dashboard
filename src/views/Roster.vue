@@ -3,7 +3,7 @@
     <v-row>
     <h1>Roster</h1>
     <v-spacer></v-spacer>
-    <v-btn>Import</v-btn>
+    <v-btn color="primary" to="/userImport">Import Users</v-btn>
   </v-row>
     <v-container>
       <v-row>
@@ -25,11 +25,15 @@
 
 <script>
 import RosterService from "../services/RosterService";
+import Navigation from '../components/Navigation';
 
 export default {
+  components: {
+    Navigation
+  },
   data: () => ({
-    hello: "world",
-    alumni: ""
+    alumni: "",
+    importDialogOpen: false,
   }),
   mounted() {
     this.getAlumni();
