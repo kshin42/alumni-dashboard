@@ -24,6 +24,11 @@ type Member struct {
 	LastName     string
 }
 
+type CheckMember struct {
+	PK string
+	SK string
+}
+
 type Payload struct {
 	OrgCode   string `json:"orgCode"`
 	FirstName string `json:"firstName"`
@@ -65,7 +70,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to Create User", err)
 	}
 
-	var checkMember Member
+	var checkMember CheckMember
 	checkMember.PK = fmt.Sprintf("USER#%s", payload.Email)
 	checkMember.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
 	err = checkExistingUser(checkMember, svc)
@@ -93,15 +98,15 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	return cm.CreateResponse(200, "Successfully Created Member", nil)
 }
 
-func checkExistingUser(member Member, svc *dynamodb.DynamoDB) error {
+func checkExistingUser(member CheckMember, svc *dynamodb.DynamoDB) error {
+	av, err := dynamodbattribute.MarshalMap(member)
+	if err != nil {
+		log.Error().Msg("Error marshalling input")
+		return err
+	}
+
 	result, err := svc.GetItem(&dynamodb.GetItemInput{
-		Key: map[string]*dynamodb.AttributeValue{
-			"PK": {
-				S: aws.String(member.PK),
-			},
-			"SK": {
-				S: aws.String(member.SK),
-			}},
+		Key:       av,
 		TableName: aws.String("Alumni-Dashboard"),
 	})
 	if err != nil {
@@ -113,5 +118,5 @@ func checkExistingUser(member Member, svc *dynamodb.DynamoDB) error {
 		return nil
 	}
 
-	return errors.New("User Already Exists: "+member.PK)
+	return errors.New("User Already Exists: " + member.PK)
 }
