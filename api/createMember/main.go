@@ -55,7 +55,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 
 	svc, err := cm.GetDBClient()
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to Create User", err)
+		return cm.CreateResponse(500, "Failed to Get DB Client", err)
 	}
 
 	// Check to see if organization already exists
@@ -67,7 +67,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to search for organization", err)
 	}
 	if len(result.Item) == 0 {
-		return cm.CreateResponse(500, "Failed to find organization", err)
+		return cm.CreateResponse(400, "Failed to find organization", err)
 	}
 
 	// Check to see if user already exists
@@ -79,7 +79,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to search for existing member", err)
 	}
 	if len(result.Item) > 0 {
-		return cm.CreateResponse(500, "User already exists", err)
+		return cm.CreateResponse(400, "User already exists", err)
 	}
 
 	var member Member
@@ -90,7 +90,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	member.LastName = payload.LastName
 	member.PasswordHash, err = cm.HashPassword(payload.Password)
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to Create User", err)
+		return cm.CreateResponse(500, "Failed to hash password", err)
 	}
 
 	av, err := dynamodbattribute.MarshalMap(member)

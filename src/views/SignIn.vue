@@ -21,7 +21,7 @@
                             </v-col>
                         </v-row>
                         <v-row align="center" justify="center">
-                            <v-btn>Login</v-btn>
+                            <v-btn to="/roster" >Login</v-btn>
                         </v-row>
                         <v-row align="center" justify="center">
                             <p style="color:white;margin-top:1em;">Don't have an account? <v-btn x-small text to="/createProfile">Sign Up</v-btn></p>

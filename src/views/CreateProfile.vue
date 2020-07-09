@@ -13,6 +13,9 @@
                 <v-row align="center" justify="center">
                     <v-form id="createForm">
                         <v-row>
+                            <v-col cols="12">
+                                <v-text-field v-model="orgCode" dark label="Organization Code" outlined ></v-text-field>
+                            </v-col>
                             <v-col cols="6">
                                 <v-text-field v-model="firstName" dark label="First Name" outlined ></v-text-field>
                             </v-col>
@@ -40,20 +43,37 @@
 </template>
 
 <script>
-import Navigation from '../components/Navigation'
+import AuthService from '../services/AuthService'
+
 export default {
     components: {
-        Navigation,
+
     },
     data: () => ({
+        orgCode: "",
         firstName: "",
         lastName: "",
         email: "",
         password: "",
+        errorMessage: "",
     }),
     methods: {
-        createProfile() {
-            
+        async createProfile() {
+            const userData = {
+                orgCode: this.orgCode,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                email: this.email,
+                password: this.password
+            }
+            //console.log(this.payload)
+            await AuthService.createMember(userData)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error.response.data)
+            })
         }
     }
 }

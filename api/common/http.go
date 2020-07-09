@@ -2,8 +2,8 @@ package common
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/json"
+	"fmt"
 
 	"github.com/rs/zerolog/log"
 )
@@ -56,11 +56,8 @@ func ParseRequest(request json.RawMessage) ([]byte, error) {
 		return nil, err
 	}
 
-	bytes, err := base64.StdEncoding.DecodeString(req.Body)
-	if err != nil {
-		log.Error().Msg("Error base64 decoding request")
-		return nil, err
-	}
+	byteArr := []byte(fmt.Sprintf("%v", req.Body))
+	log.Info().Msg(string(byteArr))
 
-	return bytes, nil
+	return byteArr, nil
 }
