@@ -5,7 +5,10 @@
                 <v-btn to="/" icon color="white"><v-icon dark large style="margin-right: 10px">fab fa-connectdevelop</v-icon></v-btn>
                 <v-toolbar-title style="color:white;" >Telam</v-toolbar-title>
                 <v-row align="center" justify="center">
-                    <h1>Create Profile</h1>
+                    <v-alert v-if="errorMessage" dense color="error" icon="fas fa-exclamation-triangle" >{{errorMessage}}</v-alert>
+                </v-row>
+                <v-row align="center" justify="center">
+                    <h1 style="padding-top:100px">Create Profile</h1>
                 </v-row>
                 <v-row align="center" justify="center">
                     <h2 class="subheader">Enter in your information</h2>
@@ -66,13 +69,13 @@ export default {
                 email: this.email,
                 password: this.password
             }
-            //console.log(this.payload)
+
             await AuthService.createMember(userData)
             .then(response => {
-                console.log(response)
+                this.$router.replace(`/roster`);
             })
             .catch(error => {
-                console.log(error.response.data)
+                this.errorMessage = error.response.data
             })
         }
     }
