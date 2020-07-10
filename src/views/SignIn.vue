@@ -14,14 +14,14 @@
                     <v-form id="createForm">
                         <v-row>
                             <v-col cols="6">
-                                <v-text-field dark label="Email" outlined ></v-text-field>
+                                <v-text-field v-model="email" dark label="Email" outlined ></v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field dark label="Password" outlined ></v-text-field>
+                                <v-text-field v-model="password" dark label="Password" outlined ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row align="center" justify="center">
-                            <v-btn to="/roster" >Login</v-btn>
+                            <v-btn @click="login()" >Login</v-btn>
                         </v-row>
                         <v-row align="center" justify="center">
                             <p style="color:white;margin-top:1em;">Don't have an account? <v-btn x-small text to="/createProfile">Sign Up</v-btn></p>
@@ -38,6 +38,29 @@ import Navigation from '../components/Navigation'
 export default {
     components: {
         Navigation,
+    },
+    computed: {
+        loggedIn() {
+            return this.$store.getters.loggedIn
+        }
+    },
+    data: () => ({
+        email: '',
+        password: '',
+    }),
+    methods: {
+        async login() {
+            await this.$store.dispatch('retrieveToken', {
+                email: this.email,
+                password: this.password,
+            })
+              .then(response => {
+                  this.$router.push('/roster')
+              })
+              .catch(err => {
+                  console.log("failed to login")
+              })
+        }
     }
 }
 </script>

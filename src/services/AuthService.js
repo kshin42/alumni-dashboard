@@ -6,5 +6,13 @@ export default {
         return axios
           .post(process.env.VUE_APP_BASE_API_URL + "/createMember", data)
           .then((response) => response);
+    },
+
+    retrieveToken(data) {
+        return "tokenvalue"
+    },
+
+    destroyToken() {
+        return "success"
     }
 }

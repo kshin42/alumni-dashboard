@@ -1,5 +1,7 @@
 <template>
   <div>
+    <v-spacer></v-spacer>
+    <v-btn @click="logout()" color="white">Log out</v-btn>
     <v-row>
     <h1>Roster</h1>
     <v-spacer></v-spacer>
@@ -45,6 +47,12 @@ export default {
     },
     openMailDialog(recipient) {
       window.location.href = `mailto:${recipient}?subject=Subject Placeholder`;
+    },
+    async logout() {
+      await this.$store.dispatch('destroyToken')
+        .then(response => {
+            this.$router.push('/signIn')
+        })
     }
   }
 };

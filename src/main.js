@@ -8,6 +8,9 @@ Vue.config.productionTip = false
 
 new Vue({
   store,
+  beforeCreate() {
+    this.$store.commit('initialiseToken')
+  },
   vuetify,
   router,
   render: h => h(App)

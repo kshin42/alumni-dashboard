@@ -15,19 +15,28 @@ const routes = [
     path: '/createProfile',
     name: 'CreateProfile',
     component: () => import('../views/CreateProfile.vue'),
-    meta: { transitionName: 'slide' }
+    meta: {
+      transitionName: 'slide',
+      requiresVisitor: true
+    }
   },
   {
     path: '/signIn',
     name: 'SignIn',
     component: () => import('../views/SignIn.vue'),
-    meta: { transitionName: 'slide' }
+    meta: {
+      transitionName: 'slide',
+      requiresVisitor: true
+    }
   },
   {
     path: '/roster',
     name: 'Roster',
     component: () => import('../views/Roster.vue'),
-    meta: { transitionName: 'slide' }
+    meta: {
+      transitionName: 'slide',
+      requiresAuth: true
+    }
   }
 ]
 

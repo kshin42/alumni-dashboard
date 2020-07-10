@@ -14,13 +14,12 @@ const DEFAULT_TRANSITION = 'fade';
 
 export default {
   data: () => ({
-    return: {
       prevHeight: 0,
       transitionName: DEFAULT_TRANSITION,
-    }
   }),
   created() {
     this.$router.beforeEach((to, from, next) => {
+      // set up fancy transitions
       let transitionName = to.meta.transitionName || from.meta.transitionName;
 
       if (transitionName === 'slide') {
@@ -31,7 +30,19 @@ export default {
 
       this.transitionName = transitionName || DEFAULT_TRANSITION;
 
-      next();
+      // check auth
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!this.$store.getters.loggedIn) {
+          next({
+            path: '/signIn',
+            query: { redirect: to.fullPath}
+          })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
     });
   }
 }
