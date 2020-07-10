@@ -11,7 +11,7 @@
       </v-row>
       <v-row align="center" justify="center">
         <v-btn class="homeBtn" to="/createProfile">Sign Up</v-btn>
-        <v-btn class="homeBtn" color="primary" to="/signIn">Login</v-btn>
+        <v-btn class="homeBtn" color="primary" to=/login>Login</v-btn>
       </v-row>
     </v-container>
     </v-content>

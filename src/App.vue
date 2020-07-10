@@ -34,7 +34,7 @@ export default {
       if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!this.$store.getters.loggedIn) {
           next({
-            path: '/signIn',
+            path: '/login',
             query: { redirect: to.fullPath}
           })
         } else {

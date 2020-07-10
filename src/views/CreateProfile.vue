@@ -36,7 +36,7 @@
                             <v-btn @click="createProfile()">Sign Up</v-btn>
                         </v-row>
                         <v-row align="center" justify="center">
-                            <p style="color:white;margin-top:1em;">Already have an account? <v-btn x-small text to="/signIn">Sign In</v-btn></p>
+                            <p style="color:white;margin-top:1em;">Already have an account? <v-btn x-small text to="/login">Sign In</v-btn></p>
                         </v-row>
                     </v-form>
                 </v-row>

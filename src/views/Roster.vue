@@ -51,7 +51,7 @@ export default {
     async logout() {
       await this.$store.dispatch('destroyToken')
         .then(response => {
-            this.$router.push('/signIn')
+            this.$router.push('/login')
         })
     }
   }

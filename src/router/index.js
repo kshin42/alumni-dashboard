@@ -21,9 +21,9 @@ const routes = [
     }
   },
   {
-    path: '/signIn',
-    name: 'SignIn',
-    component: () => import('../views/SignIn.vue'),
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
     meta: {
       transitionName: 'slide',
       requiresVisitor: true
