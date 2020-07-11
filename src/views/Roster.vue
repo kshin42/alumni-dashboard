@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import RosterService from "../services/RosterService";
 import Navigation from '../components/Navigation';
 
 export default {
@@ -38,13 +37,18 @@ export default {
     importDialogOpen: false,
   }),
   mounted() {
-    this.getAlumni();
+    this.$store.dispatch('getMembers', {
+        email: this.email,
+        password: this.password,
+    })
+      .then(response => {
+          this.alumni = response
+      })
+      .catch(err => {
+          console.log("failed to get members "+err)
+      })
   },
   methods: {
-    async getAlumni() {
-      this.alumni = await RosterService.getRoster();
-      
-    },
     openMailDialog(recipient) {
       window.location.href = `mailto:${recipient}?subject=Subject Placeholder`;
     },

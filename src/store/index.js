@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AuthService from '../services/AuthService'
+import RosterService from '../services/RosterService'
 
 Vue.use(Vuex)
 
@@ -30,7 +31,6 @@ export default new Vuex.Store({
   actions: {
     async retrieveToken(context, credentials) {
       const token = await AuthService.retrieveToken(credentials)
-      console.log(token)
       localStorage.setItem('access_token', token)
       context.commit('setToken', token)
     },
@@ -40,6 +40,9 @@ export default new Vuex.Store({
         localStorage.removeItem('access_token')
         context.commit('destroyToken')
       }
+    },
+    async getMembers(context, session) {
+      return await RosterService.getRoster(session)
     }
   },
   modules: {
