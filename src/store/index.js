@@ -28,8 +28,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    retrieveToken(context, credentials) {
-      const token = AuthService.retrieveToken(credentials)
+    async retrieveToken(context, credentials) {
+      const token = await AuthService.retrieveToken(credentials)
+      console.log(token)
       localStorage.setItem('access_token', token)
       context.commit('setToken', token)
     },

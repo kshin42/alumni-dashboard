@@ -9,7 +9,9 @@ export default {
     },
 
     retrieveToken(data) {
-        return "tokenvalue"
+        return axios
+          .post(process.env.VUE_APP_BASE_API_URL + "/login", data)
+          .then((response) => response.data)
     },
 
     destroyToken() {

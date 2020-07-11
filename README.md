@@ -61,3 +61,5 @@ access patterns
 get users profile
 get members of org
 
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SQLtoNoSQL.ReadData.Query.html
+

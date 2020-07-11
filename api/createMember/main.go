@@ -4,9 +4,6 @@ import (
 	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/rs/zerolog/log"
 
 	"fmt"
@@ -21,11 +18,6 @@ type Member struct {
 	PasswordHash string
 	FirstName    string
 	LastName     string
-}
-
-type DBItem struct {
-	PK string
-	SK string
 }
 
 type Payload struct {
@@ -59,10 +51,10 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	}
 
 	// Check to see if organization already exists
-	var organization DBItem
+	var organization cm.DBItem
 	organization.PK = fmt.Sprintf("ORG#%s", payload.OrgCode)
 	organization.SK = fmt.Sprintf("fill")
-	result, err := checkExistingItem(organization, svc)
+	result, err := cm.CheckExistingItem(organization, svc)
 	if err != nil {
 		return cm.CreateResponse(500, "Failed to search for organization", err)
 	}
@@ -71,10 +63,10 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	}
 
 	// Check to see if user already exists
-	var checkMember DBItem
+	var checkMember cm.DBItem
 	checkMember.PK = fmt.Sprintf("USER#%s", payload.Email)
 	checkMember.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
-	result, err = checkExistingItem(checkMember, svc)
+	result, err = cm.CheckExistingItem(checkMember, svc)
 	if err != nil {
 		return cm.CreateResponse(500, "Failed to search for existing member", err)
 	}
@@ -82,6 +74,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(400, "User already exists", err)
 	}
 
+	// Create new User
 	var member Member
 	member.PK = fmt.Sprintf("USER#%s", payload.Email)
 	member.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
@@ -93,42 +86,10 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(500, "Failed to hash password", err)
 	}
 
-	av, err := dynamodbattribute.MarshalMap(member)
+	err = cm.PutItem(member, svc)
 	if err != nil {
-		log.Error().Msg("Error marshalling input")
-		return cm.CreateResponse(500, "Failed to Marshal db input object", err)
-	}
-
-	input := &dynamodb.PutItemInput{
-		Item:      av,
-		TableName: aws.String("Alumni-Dashboard"),
-	}
-
-	_, err = svc.PutItem(input)
-	if err != nil {
-		log.Error().Msg("Failed to save member")
-		return cm.CreateResponse(500, "Failed to save member", err)
+		return cm.CreateResponse(500, "Failed to insert member", err)
 	}
 
 	return cm.CreateResponse(200, "Successfully Created Member", nil)
-}
-
-func checkExistingItem(member DBItem, svc *dynamodb.DynamoDB) (*dynamodb.GetItemOutput, error) {
-	result := &dynamodb.GetItemOutput{}
-	av, err := dynamodbattribute.MarshalMap(member)
-	if err != nil {
-		log.Error().Msg("Error marshalling checkExistingItem input")
-		return result, err
-	}
-
-	result, err = svc.GetItem(&dynamodb.GetItemInput{
-		Key:       av,
-		TableName: aws.String("Alumni-Dashboard"),
-	})
-	if err != nil {
-		log.Error().Msg("Failed to check existing item")
-		return result, err
-	}
-
-	return result, nil
 }

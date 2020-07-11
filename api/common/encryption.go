@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"strings"
 
 	"github.com/rs/zerolog/log"
 	"golang.org/x/crypto/argon2"
@@ -27,7 +28,7 @@ func HashPassword(pw string) (string, error) {
 		keyLength:   32,
 	}
 
-	salt, err := generateRandomBytes(params.saltLength)
+	salt, err := GenerateRandomBytes(params.saltLength)
 	if err != nil {
 		log.Error().Msg("Error generating password salt")
 		return "", err
@@ -41,7 +42,29 @@ func HashPassword(pw string) (string, error) {
 	return encodedHash, nil
 }
 
-func generateRandomBytes(n uint32) ([]byte, error) {
+func GenerateHash(pw string, hash string) (string, error) {
+	params := &gParams{
+		memory:      64 * 128,
+		iterations:  3,
+		parallelism: 2,
+		saltLength:  16,
+		keyLength:   32,
+	}
+
+	vals := strings.Split(hash, "$")
+	salt, err := base64.RawStdEncoding.DecodeString(vals[0])
+	if err != nil {
+		log.Error().Msg("error right here")
+		return "", err
+	}
+
+	fullHash := argon2.IDKey([]byte(pw), salt, params.iterations, params.memory, params.parallelism, params.keyLength)
+	b64Hash := base64.RawStdEncoding.EncodeToString(fullHash)
+
+	return fmt.Sprintf("%s$%s", vals[0], b64Hash), nil
+}
+
+func GenerateRandomBytes(n uint32) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := rand.Read(b) //uses the crypto rand so this is actually a secure random number
 	if err != nil {
