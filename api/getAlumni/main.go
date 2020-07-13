@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/rs/zerolog/log"
 
 	cm "alumni-dashboard/api/common"
 )
@@ -21,10 +22,21 @@ func main() {
 	lambda.Start(RespondLambda)
 }
 
-func RespondLambda() (*cm.Response, error) {
+func RespondLambda(request json.RawMessage) (*cm.Response, error) {
+	req, err := cm.ParseRequest(request)
+	if err != nil {
+		return cm.CreateResponse(400, "Bad Request", err)
+	}
+
 	svc, err := cm.GetDBClient()
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to Create Member", err)
+		return cm.CreateResponse(500, "Failed to get members", err)
+	}
+
+	err = cm.ValidateSession(req, svc)
+	if err != nil {
+		log.Error().Msgf("Session is not valid with: %s", err.Error())
+		return cm.CreateResponse(401, "Unauthorized Access", nil)
 	}
 
 	result, err := svc.Scan(&dynamodb.ScanInput{

@@ -36,14 +36,14 @@ func main() {
 }
 
 func RespondLambda(request json.RawMessage) (*cm.Response, error) {
-	reqBytes, err := cm.ParseRequest(request)
+	req, err := cm.ParseRequest(request)
 	if err != nil {
 		log.Error().Msgf("Error parsing request with: %s", err.Error())
 		return cm.CreateResponse(400, "User Not Found", nil)
 	}
 
 	var reqBody RequestBody
-	err = json.Unmarshal(reqBytes, &reqBody)
+	err = json.Unmarshal([]byte(fmt.Sprintf("%v", req.Body)), &reqBody)
 	if err != nil {
 		log.Error().Msgf("Error unmarshalling request body with: %s", err.Error())
 		return cm.CreateResponse(400, "User Not Found", nil)

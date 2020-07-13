@@ -33,13 +33,13 @@ func main() {
 }
 
 func RespondLambda(request json.RawMessage) (*cm.Response, error) {
-	reqBytes, err := cm.ParseRequest(request)
+	req, err := cm.ParseRequest(request)
 	if err != nil {
 		return cm.CreateResponse(400, "Bad Request", err)
 	}
 
 	var payload Payload
-	err = json.Unmarshal(reqBytes, &payload)
+	err = json.Unmarshal([]byte(fmt.Sprintf("%v", req.Body)), &payload)
 	if err != nil {
 		log.Error().Msg("Error unmarshalling request body")
 		return cm.CreateResponse(400, "Bad Member Object", err)

@@ -72,7 +72,16 @@ export default {
 
             await AuthService.createMember(userData)
             .then(response => {
-                this.$router.replace(`/roster`);
+                this.$store.dispatch('retrieveToken', {
+                    email: this.email,
+                    password: this.password,
+                })
+                .then(response => {
+                    this.$router.push('/roster')
+                })
+                .catch(err => {
+                    console.log("failed to login")
+                })
             })
             .catch(error => {
                 this.errorMessage = error.response.data

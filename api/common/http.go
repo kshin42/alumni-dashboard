@@ -3,13 +3,13 @@ package common
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 
 	"github.com/rs/zerolog/log"
 )
 
 type Request struct {
-	Body string `json:"body"`
+	Body    string      `json:"body"`
+	Headers map[string]interface{} `json:"headers"`
 }
 
 type Response struct {
@@ -45,19 +45,17 @@ func CreateResponse(statusCode int, body string, error error) (*Response, error)
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(resp)
 
+	log.Info().Msgf("sending response: %v", resp)
 	return resp, error
 }
 
-func ParseRequest(request json.RawMessage) ([]byte, error) {
+func ParseRequest(request json.RawMessage) (Request, error) {
 	var req Request
 	err := json.Unmarshal(request, &req)
 	if err != nil {
 		log.Error().Msg("Error unmarshalling request")
-		return nil, err
+		return req, err
 	}
 
-	byteArr := []byte(fmt.Sprintf("%v", req.Body))
-	log.Info().Msg(string(byteArr))
-
-	return byteArr, nil
+	return req, nil
 }

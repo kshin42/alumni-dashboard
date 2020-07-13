@@ -37,15 +37,9 @@ export default {
     importDialogOpen: false,
   }),
   mounted() {
-    this.$store.dispatch('getMembers', {
-        email: this.email,
-        password: this.password,
-    })
+    this.$store.dispatch('getRoster')
       .then(response => {
           this.alumni = response
-      })
-      .catch(err => {
-          console.log("failed to get members "+err)
       })
   },
   methods: {
@@ -54,9 +48,6 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('destroyToken')
-        .then(response => {
-            this.$router.push('/login')
-        })
     }
   }
 };
