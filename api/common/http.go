@@ -45,7 +45,6 @@ func CreateResponse(statusCode int, body string, error error) (*Response, error)
 	b := new(bytes.Buffer)
 	json.NewEncoder(b).Encode(resp)
 
-	log.Info().Msgf("sending response: %v", resp)
 	return resp, error
 }
 

@@ -83,8 +83,6 @@ func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 	token := fmt.Sprintf("%v", req.Headers["authorization"])
 	user := fmt.Sprintf("%v", req.Headers["x-user-email"])
 
-	log.Info().Msgf("User: %s", user)
-	log.Info().Msgf("Session: %s", token)
 	// Check if session exists
 	item := DBItem{
 		PK: fmt.Sprintf("USER#%s", user),
@@ -107,9 +105,7 @@ func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 		return errors.New("User does not have active session")
 	}
 
-	log.Info().Msg(session.TimeUpdated.String())
 	if time.Now().After(session.TimeUpdated.Add(1 * time.Hour)) {
-		log.Error().Msgf("Session has expired")
 		// Find all sessions and delete them
 		input := dynamodb.QueryInput{
 			TableName: aws.String("Alumni-Dashboard"),
@@ -140,7 +136,6 @@ func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 		var sessions []DBItem
 		err = dynamodbattribute.UnmarshalListOfMaps(results.Items, &sessions)
 		for _, s := range sessions {
-			log.Info().Msgf("%v:%v", s.PK, s.SK)
 			// Delete all session objects
 			key, err := dynamodbattribute.MarshalMap(DBItem{
 				PK: s.PK,
@@ -154,7 +149,6 @@ func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 				Key: key,
 				TableName: aws.String("Alumni-Dashboard"),
 			})
-			log.Info().Msgf("Deleted: %v:%v", s.PK, s.SK)
 		}
 		return errors.New("Session has expired.")
 	} else {
