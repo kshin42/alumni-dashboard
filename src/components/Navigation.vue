@@ -40,7 +40,8 @@ export default {
   dialog: false,
   items: [
     { title: 'Dashboard (WIP)', icon: 'fas fa-th-large', path: '/'},
-    { title: 'Resume', icon: 'far fa-file-alt', path: '/resume'},
+    { title: 'My Resume', icon: 'far fa-file-alt', path: '/resume'},
+    { title: 'Resume Workshop', icon: 'fas fa-screwdriver', path: '/resumeWorkshop'},
     { title: 'Roster', icon: 'fas fa-clipboard-list', path: '/roster' }
    ]
  }),

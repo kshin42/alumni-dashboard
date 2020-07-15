@@ -44,6 +44,14 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/resumeWorkshop',
+    name: 'ResumeWorkshop',
+    component: () => import('../views/ResumeWorkshop.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 
