@@ -34,7 +34,14 @@ const routes = [
     name: 'Roster',
     component: () => import('../views/Roster.vue'),
     meta: {
-      transitionName: 'slide',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/resume',
+    name: 'Resume',
+    component: () => import('../views/Resume.vue'),
+    meta: {
       requiresAuth: true
     }
   }

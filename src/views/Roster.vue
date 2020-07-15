@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-spacer></v-spacer>
-    <v-btn @click="logout()" color="white">Log out</v-btn>
-    <v-row>
-    <h1>Roster</h1>
-    <v-spacer></v-spacer>
-    <v-btn color="primary" to="/userImport">Import Users</v-btn>
-  </v-row>
+    <Navigation />
     <v-container>
       <v-row>
         <v-col cols="auto" v-for="(test, index) in alumni" v-bind:key="index">

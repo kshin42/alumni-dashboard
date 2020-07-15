@@ -11,6 +11,8 @@ export default {
           .catch((err) => {
               if (err.response && err.response.status === 401) {
                 store.dispatch('destroyToken')
+              } else {
+                  console.log(err)
               }
           })
     },
