@@ -90,7 +90,6 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	// Generate session token and store it in DB
 	tokenBytes, err := cm.GenerateRandomBytes(32)
 	token := base64.RawStdEncoding.EncodeToString(tokenBytes)
-	log.Info().Msg(token)
 	if err != nil {
 		log.Error().Msgf("Error generating hash for: %s with %s", reqBody.Email, err.Error())
 		return cm.CreateResponse(400, "User Not Found", nil)

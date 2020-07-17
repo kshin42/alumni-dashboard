@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import router from '../router'
 import AuthService from '../services/AuthService'
 import RosterService from '../services/RosterService'
+import ResumeService from '../services/ResumeService'
 
 Vue.use(Vuex)
 
@@ -57,11 +58,15 @@ export default new Vuex.Store({
     },
     async getRoster(context) {
       const response = await RosterService.getRoster(context.state.token)
-      if (response.status == 401) {
-        console.log("caught 40111")
-        await context.dispatch('destroyToken')
-      }
       return response.data
+    },
+    async uploadResume(context, payload) {
+      const response = await ResumeService.uploadResume(payload)
+      return response
+    },
+    async getResume(context) {
+      const response = await ResumeService.getResume()
+      return response
     }
   },
   modules: {

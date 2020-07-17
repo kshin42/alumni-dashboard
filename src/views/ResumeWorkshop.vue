@@ -9,7 +9,7 @@
     show-expand
     @click:row="clicked"
     class="elevation-1"
-    style="margin:10px;"
+    style="margin:20px;"
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -18,35 +18,10 @@
       </v-toolbar>
     </template>
     <template v-slot:expanded-item="{ headers, item }">
-        <td :colspan="headers.length">{{ item.name }}
-            <v-row>
-                <v-col cols="6">
-                    <v-card>
-                        <iframe class="doc" src=""></iframe>
-                    </v-card>
-                </v-col>
-                <v-col cols="6">
-                    <h3>Feedback Card</h3>
-                    <v-divider style="margin-bottom:20px"></v-divider>
-                    <v-card class="feedbackcard">
-                        <v-card-title>Please Enter Your Feedback</v-card-title>
-                         <v-textarea style="margin:10px"
-                        :auto-grow="true">
-                      </v-textarea>
-                        <v-card-actions>
-                            <v-btn text color="accent">Submit</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                    <h3 style="margin-top:50px">Prior Feedback Given</h3>
-                    <v-divider style="margin-bottom:20px"></v-divider>
-                     <v-data-table
-                        :headers="subheaders"
-                        :items="feedback"
-                        :items-per-page="3"
-                        item-key="feedback"
-                        class="elevation-1"
-                        style="margin:10px;" dark >
-                    </v-data-table>
+        <td :colspan="headers.length">
+            <v-row align="center" justify="center">
+                <v-col cols="10">
+                    <iframe class="doc" :src=item.link></iframe>
                 </v-col>
             </v-row>
         </td>
@@ -81,24 +56,13 @@ export default {
                 value: 'feedback',
             }
         ],
-        feedback: [
-            {feedback: "this was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guess"},
-            {feedback: "this wa alright I guess"},
-            {feedback: "this was alrigt I guess"},
-            {feedback: "this was alright I guehis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guess"},
-            {feedback: "this walright I guess"},
-            {feedback: "this was alright I ess"},
-            {feedback: "this was alright I this was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guessthis was alright I guess"},
-            {feedback: "this was aght I guess"},
-            {feedback: "this was alright I gs"},
-        ],
         resumes: [
           {
             name: 'John Smith',
             major: 'CS',
             class: 'First Year',
             feedNum: 24,
-            iron: '1%',
+            link: 'https://docs.google.com/document/d/1868X2oXFgknj6-Al1y8ldhvJt4qpu38ZVyAMTEjO674/edit?usp=sharing',
 
           },
           {
@@ -141,7 +105,7 @@ export default {
 <style scoped>
 .doc {
     margin-top: 10px;
-    height: 800px;
+    height: 900px;
     width: 100%;
 }
 </style>

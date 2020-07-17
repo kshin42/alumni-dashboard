@@ -58,6 +58,38 @@ func CheckExistingItem(member DBItem, svc *dynamodb.DynamoDB) (*dynamodb.GetItem
 	return result, nil
 }
 
+func GetItemsWithSKPrefix(item DBItem, svc *dynamodb.DynamoDB) (*dynamodb.QueryOutput, error) {
+	var results *dynamodb.QueryOutput
+	input := dynamodb.QueryInput{
+		TableName: aws.String("Alumni-Dashboard"),
+		KeyConditions: map[string]*dynamodb.Condition{
+			"PK": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(item.PK),
+					},
+				},
+			},
+			"SK": {
+				ComparisonOperator: aws.String("BEGINS_WITH"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(item.SK),
+					},
+				},
+			},
+		},
+	}
+	results, err := svc.Query(&input)
+	if err != nil {
+		log.Error().Msgf("Failed to find sessions with: %s", err.Error())
+		return results, errors.New("Session has expired")
+	}
+
+	return results, nil
+}
+
 func PutItem(item interface{}, svc *dynamodb.DynamoDB) error {
 	av, err := dynamodbattribute.MarshalMap(item)
 	if err != nil {
@@ -107,34 +139,19 @@ func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 
 	if time.Now().After(session.TimeUpdated.Add(1 * time.Hour)) {
 		// Find all sessions and delete them
-		input := dynamodb.QueryInput{
-			TableName: aws.String("Alumni-Dashboard"),
-			KeyConditions: map[string]*dynamodb.Condition{
-				"PK": {
-					ComparisonOperator: aws.String("EQ"),
-					AttributeValueList: []*dynamodb.AttributeValue{
-						{
-							S: aws.String(fmt.Sprintf("USER#%s", user)),
-						},
-					},
-				},
-				"SK": {
-					ComparisonOperator: aws.String("BEGINS_WITH"),
-					AttributeValueList: []*dynamodb.AttributeValue{
-						{
-							S: aws.String("SESSION#"),
-						},
-					},
-				},
-			},
-		}
-		results, err := svc.Query(&input)
+		item.SK = "SESSION#"
+		results, err := GetItemsWithSKPrefix(item, svc)
 		if err != nil {
 			log.Error().Msgf("Failed to find sessions with: %s", err.Error())
 			return errors.New("Session has expired")
 		}
+
 		var sessions []DBItem
 		err = dynamodbattribute.UnmarshalListOfMaps(results.Items, &sessions)
+		if err != nil {
+			log.Error().Msg("Failed to unmarshal query results")
+			return errors.New("Session has expired")
+		}
 		for _, s := range sessions {
 			// Delete all session objects
 			key, err := dynamodbattribute.MarshalMap(DBItem{
