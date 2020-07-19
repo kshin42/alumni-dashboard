@@ -25,3 +25,7 @@ getAlumni
 createMember
 getMember
 main.zip
+getResume
+getResumes
+login
+uploadResume

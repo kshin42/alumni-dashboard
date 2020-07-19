@@ -1,11 +1,12 @@
 <template>
 <div>
     <Navigation />
+     <v-alert v-if="errorMessage" dense color="error" icon="fas fa-exclamation-triangle" >{{errorMessage}}</v-alert>
     <v-data-table
     :headers="headers"
     :items="resumes"
     :expanded="expanded"
-    item-key="name"
+    item-key="Name"
     show-expand
     @click:row="clicked"
     class="elevation-1"
@@ -21,7 +22,7 @@
         <td :colspan="headers.length">
             <v-row align="center" justify="center">
                 <v-col cols="10">
-                    <iframe class="doc" :src=item.link></iframe>
+                    <iframe class="doc" :src=item.Link></iframe>
                 </v-col>
             </v-row>
         </td>
@@ -37,16 +38,17 @@ export default {
         Navigation,
     },
     data:() => ({
+        errorMessage: "",
         expanded: [],
         headers: [
           {
             text: 'Name',
             align: 'start',
             sortable: false,
-            value: 'name',
+            value: 'Name',
           },
           { text: 'Major', sortable: true, value: 'major' },
-          { text: 'Class', sortable: true, value: 'class' },
+          { text: 'Year', sortable: true, value: 'year' },
           { text: '# Feedback Received', sortable: true, value: 'feedNum' },
         ],
         subheaders: [
@@ -56,38 +58,10 @@ export default {
                 value: 'feedback',
             }
         ],
-        resumes: [
-          {
-            name: 'John Smith',
-            major: 'CS',
-            class: 'First Year',
-            feedNum: 24,
-            link: 'https://docs.google.com/document/d/1868X2oXFgknj6-Al1y8ldhvJt4qpu38ZVyAMTEjO674/edit?usp=sharing',
-
-          },
-          {
-            name: 'Adam Knight',
-            major: 'CE',
-            class: 'Second Year',
-            feedNum: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-          {
-            name: 'Julio Jones',
-            major: 'ME',
-            class: 'Third Year',
-            feedNum: 23,
-            protein: 6.0,
-            iron: '7%',
-          }
-        ],
+        resumes: [],
     }),
     mounted() {
-        // this.$store.dispatch('getResumes')
-        // .then(response => {
-        //     this.resumeLink = response
-        // })
+        this.getResumes();
     },
     methods: {
         clicked(value) {
@@ -96,6 +70,15 @@ export default {
                 this.expanded.splice(i, 1)
             } else {
                 this.expanded.push(value)
+            }
+        },
+        async getResumes() {
+            const response = await this.$store.dispatch('getResumes')
+            if (response.status == 200) {
+                console.log(response.data)
+                this.resumes = response.data
+            } else {
+                this.errorMessage = "Failed to load resumes. Please contact an administrator."
             }
         }
     }

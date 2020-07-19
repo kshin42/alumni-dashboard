@@ -31,6 +31,20 @@ export default {
           })
     },
 
+    getResumes() {
+        let config = this.setUpSessionHeader()
+        return axios
+          .get(process.env.VUE_APP_BASE_API_URL + "/getResumes", config)
+          .then((response) => response)
+          .catch((err) => {
+                if (err.response && err.response.status === 401) {
+                store.dispatch('destroyToken')
+                } else {
+                    console.log(err)
+                }
+          })
+    },
+
     setUpSessionHeader() {
         let config = {
             headers: {

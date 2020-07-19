@@ -83,8 +83,8 @@ func GetItemsWithSKPrefix(item DBItem, svc *dynamodb.DynamoDB) (*dynamodb.QueryO
 	}
 	results, err := svc.Query(&input)
 	if err != nil {
-		log.Error().Msgf("Failed to find sessions with: %s", err.Error())
-		return results, errors.New("Session has expired")
+		log.Error().Msgf("Failed to query with SK prefix: %s", err.Error())
+		return results, errors.New("Failed to query db")
 	}
 
 	return results, nil
@@ -114,6 +114,11 @@ func PutItem(item interface{}, svc *dynamodb.DynamoDB) error {
 func ValidateSession(req Request, svc *dynamodb.DynamoDB) error {
 	token := fmt.Sprintf("%v", req.Headers["authorization"])
 	user := fmt.Sprintf("%v", req.Headers["x-user-email"])
+
+	if token == "" || user == "" {
+		log.Error().Msg("Authorization headers not found")
+		return errors.New("User does not have active session")
+	}
 
 	// Check if session exists
 	item := DBItem{

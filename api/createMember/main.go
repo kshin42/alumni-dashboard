@@ -18,6 +18,7 @@ type Member struct {
 	PasswordHash string
 	FirstName    string
 	LastName     string
+	Metadata     string
 }
 
 type Payload struct {
@@ -74,21 +75,38 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(400, "User already exists", err)
 	}
 
-	// Create new User
-	var member Member
-	member.PK = fmt.Sprintf("USER#%s", payload.Email)
-	member.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
-	member.Email = payload.Email
-	member.FirstName = payload.FirstName
-	member.LastName = payload.LastName
-	member.PasswordHash, err = cm.HashPassword(payload.Password)
+	// Create new User Login Record
+	var login Member
+	login.PK = fmt.Sprintf("USER#%s", payload.Email)
+	login.SK = "LOGIN#"
+	login.Email = payload.Email
+	login.FirstName = payload.FirstName
+	login.LastName = payload.LastName
+	login.PasswordHash, err = cm.HashPassword(payload.Password)
 	if err != nil {
 		return cm.CreateResponse(500, "Failed to hash password", err)
 	}
-
-	err = cm.PutItem(member, svc)
+	err = cm.PutItem(login, svc)
 	if err != nil {
-		return cm.CreateResponse(500, "Failed to insert member", err)
+		return cm.CreateResponse(500, "Failed to insert login record", err)
+	}
+
+	// Create association between the user to the org
+	var userToOrg cm.DBItem
+	userToOrg.PK = fmt.Sprintf("USER#%s", payload.Email)
+	userToOrg.SK = fmt.Sprintf("ORG#%s", payload.OrgCode)
+	err = cm.PutItem(userToOrg, svc)
+	if err != nil {
+		return cm.CreateResponse(500, "Failed to insert userToOrg record", err)
+	}
+
+	// Create association between the org to the user
+	var orgToUser cm.DBItem
+	orgToUser.PK = fmt.Sprintf("ORG#%s", payload.OrgCode)
+	orgToUser.SK = fmt.Sprintf("USER#%s", payload.Email)
+	err = cm.PutItem(orgToUser, svc)
+	if err != nil {
+		return cm.CreateResponse(500, "Failed to insert userToOrg record", err)
 	}
 
 	return cm.CreateResponse(200, "Successfully Created Member", nil)

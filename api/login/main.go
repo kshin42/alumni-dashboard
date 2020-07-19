@@ -58,7 +58,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	// Check if user exists for the org
 	item := cm.DBItem{
 		PK: fmt.Sprintf("USER#%s", reqBody.Email),
-		SK: "ORG#ASP",
+		SK: "LOGIN#",
 	}
 	result, err := cm.CheckExistingItem(item, svc)
 	if err != nil {
@@ -66,7 +66,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		return cm.CreateResponse(400, "User Not Found", nil)
 	}
 	if len(result.Item) == 0 {
-		log.Error().Msgf("User doesn't exist for that organization for: %s", reqBody.Email)
+		log.Error().Msgf("User doesn't exist: %s", reqBody.Email)
 		return cm.CreateResponse(400, "User Not Found", nil)
 	}
 

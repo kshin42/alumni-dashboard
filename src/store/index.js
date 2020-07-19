@@ -67,6 +67,10 @@ export default new Vuex.Store({
     async getResume(context) {
       const response = await ResumeService.getResume()
       return response
+    },
+    async getResumes(context) {
+      const response = await ResumeService.getResumes()
+      return response
     }
   },
   modules: {
