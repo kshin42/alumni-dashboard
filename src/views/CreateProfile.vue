@@ -77,7 +77,7 @@ export default {
                     password: this.password,
                 })
                 .then(response => {
-                    this.$router.push('/roster')
+                    this.$router.push('/resume')
                 })
                 .catch(err => {
                     console.log("failed to login")

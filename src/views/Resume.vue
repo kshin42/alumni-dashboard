@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         async saveResume() {
-            if (!this.uploadLink.includes("docs.google.com/document")) {
+            if (!this.uploadLink.includes("google")) {
                 this.saveErrorMessage = "This is not a valid google link. Please follow above steps."
                 return 
             }
