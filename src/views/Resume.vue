@@ -14,14 +14,16 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
+            <v-row style="color:black">
+            <div>
               1. Upload your resume to google docs<br />
               2. Hit the share button in the top right corner<br />
               3. Select the "Get link" option<br />
-              4. Below the link is a dropdown with access options. Make sure it is "Anyone with the link" and NOT "Restricted"<br />
-              5. To the right of the access dropdown in a permissions dropdown. Make sure it is "Commenter" and NOT "Viewer" or "Editor"<br />
+              4. Below the link is a dropdown with access options. Make sure it is <strong>"Anyone with the link"</strong> and NOT "Restricted"<br />
+              5. To the right of the access dropdown in a permissions dropdown. Make sure it is <b>"Commenter"</b> and NOT "Viewer" or "Editor"<br />
               6. Copy generated link<br />
               7. Paste link in below field and hit Save<br />
+            </div>
               <v-col cols="12">
                 <v-text-field label="Google Doc Link*" v-model="uploadLink" required></v-text-field>
               </v-col>
@@ -65,8 +67,8 @@ export default {
     },
     methods: {
         async saveResume() {
-            if (!this.uploadLink.includes("google")) {
-                this.saveErrorMessage = "This is not a valid google link. Please follow above steps."
+            if (!this.uploadLink.includes("docs.google.com")) {
+                this.saveErrorMessage = "This is not a valid google docs link. It should contain 'docs.google.com'. If this is a document from google drive, copy and paste the contents into a google docs document."
                 return 
             }
             const response = await this.$store.dispatch('uploadResume',{
