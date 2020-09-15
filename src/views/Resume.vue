@@ -67,10 +67,6 @@ export default {
     },
     methods: {
         async saveResume() {
-            if (!this.uploadLink.includes("docs.google.com")) {
-                this.saveErrorMessage = "This is not a valid google docs link. It should contain 'docs.google.com'. If this is a document from google drive, copy and paste the contents into a google docs document."
-                return 
-            }
             const response = await this.$store.dispatch('uploadResume',{
                 email: this.$store.getters.getCurrentUser,
                 resumeLink: this.uploadLink

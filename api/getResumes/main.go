@@ -88,7 +88,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 		}
 		if len(dbo) > 0 {
 			var r Resume
-			r.Name = fmt.Sprintf("%s", u.SK)
+			r.Name = fmt.Sprintf("%s", u.SK[5:len(u.SK)])
 			r.Link = dbo[0].Link
 			resumes = append(resumes, r)
 		}

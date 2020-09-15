@@ -11,13 +11,16 @@
                     <h2 class="subheader">Enter in your login information</h2>
                 </v-row>
                 <v-row align="center" justify="center">
+                    <v-alert v-if="errorMessage" dense color="error" icon="fas fa-exclamation-triangle" >{{errorMessage}}</v-alert>
+                </v-row>
+                <v-row align="center" justify="center">
                     <v-form id="createForm">
                         <v-row>
                             <v-col cols="6">
                                 <v-text-field v-model="email" dark label="Email" outlined ></v-text-field>
                             </v-col>
                             <v-col cols="6">
-                                <v-text-field v-model="password" dark label="Password" outlined ></v-text-field>
+                                <v-text-field v-model="password" dark label="Password" type='password' outlined ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row align="center" justify="center">
@@ -47,6 +50,7 @@ export default {
     data: () => ({
         email: '',
         password: '',
+        errorMessage: '',
     }),
     methods: {
         async login() {
@@ -58,7 +62,7 @@ export default {
                   this.$router.push('/resume')
               })
               .catch(err => {
-                  console.log("failed to login")
+                  this.errorMessage = err.response.data
               })
         }
     }
