@@ -96,9 +96,6 @@ export default {
     width: 100%;
     height: 100%;
 }
-.feedbackcard {
-    margin-top: 10px;
-}
 
 .resumeframe {
     margin-top: 10px;

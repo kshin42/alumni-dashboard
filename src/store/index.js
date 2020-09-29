@@ -4,6 +4,7 @@ import router from '../router'
 import AuthService from '../services/AuthService'
 import RosterService from '../services/RosterService'
 import ResumeService from '../services/ResumeService'
+import FeedbackService from '../services/FeedbackService'
 
 Vue.use(Vuex)
 
@@ -70,6 +71,10 @@ export default new Vuex.Store({
     },
     async getResumes(context) {
       const response = await ResumeService.getResumes()
+      return response
+    },
+    async submitFeedback(context, payload) {
+      const response = await FeedbackService.submitFeedback(payload)
       return response
     }
   },
