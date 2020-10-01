@@ -84,6 +84,7 @@ export default {
     })
     if (response.status == 200) {
         this.successMessage = true
+        this.feedbackcomment = ""
     } else {
         this.errorMessage = "Sorry failed to submit feedback. Please reach out to an administrator."
     }
