@@ -10,7 +10,7 @@ export default {
           .then((response) => response)
           .catch((err) => {
             if (err.response && err.response.status === 401) {
-              store.dispatch('destroyToken')
+                console.log(err)
             } else {
                 console.log(err)
             }
@@ -24,7 +24,7 @@ export default {
           .then((response) => response)
           .catch((err) => {
                 if (err.response && err.response.status === 401) {
-                store.dispatch('destroyToken')
+                    console.log(err)
                 } else {
                     console.log(err)
                 }
@@ -38,7 +38,7 @@ export default {
           .then((response) => response)
           .catch((err) => {
                 if (err.response && err.response.status === 401) {
-                store.dispatch('destroyToken')
+                    console.log(err)
                 } else {
                     console.log(err)
                 }

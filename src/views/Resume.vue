@@ -63,29 +63,29 @@ export default {
         saveErrorMessage: ""
     }),
     mounted() {
-        this.getResume()
+        
     },
     methods: {
         async saveResume() {
-            const response = await this.$store.dispatch('uploadResume',{
-                email: this.$store.getters.getCurrentUser,
-                resumeLink: this.uploadLink
-            })
-            if (response.status == 200) {
-                this.resumeLink = this.uploadLink
-                this.dialog = false
-                this.saveErrorMessage = ""
-            } else {
-                this.saveErrorMessage = "Failed to Upload Resume. Please contact an administrator"
-            }
+            // const response = await this.$store.dispatch('uploadResume',{
+            //     email: this.$store.getters.getCurrentUser,
+            //     resumeLink: this.uploadLink
+            // })
+            // if (response.status == 200) {
+            //     this.resumeLink = this.uploadLink
+            //     this.dialog = false
+            //     this.saveErrorMessage = ""
+            // } else {
+            //     this.saveErrorMessage = "Failed to Upload Resume. Please contact an administrator"
+            // }
         },
         async getResume() {
-            const response = await this.$store.dispatch('getResume')
-            if (response.status == 200) {
-                this.resumeLink = response.data
-            } else {
-                this.errorMessage = "Failed to load resume. Please upload a new link."
-            }
+            // const response = await this.$store.dispatch('getResume')
+            // if (response.status == 200) {
+            //     this.resumeLink = response.data
+            // } else {
+            //     this.errorMessage = "Failed to load resume. Please upload a new link."
+            // }
         }
     }
 }

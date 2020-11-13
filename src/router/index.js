@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import firebase from 'firebase'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,6 @@ const routes = [
     component: () => import('../views/CreateProfile.vue'),
     meta: {
       transitionName: 'slide',
-      requiresVisitor: true
     }
   },
   {
@@ -26,7 +26,6 @@ const routes = [
     component: () => import('../views/Login.vue'),
     meta: {
       transitionName: 'slide',
-      requiresVisitor: true
     }
   },
   {
@@ -58,5 +57,17 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const currentUser = firebase.auth().currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !currentUser) {
+    next('login');
+  } else {
+    next();
+  }
+
+});
 
 export default router

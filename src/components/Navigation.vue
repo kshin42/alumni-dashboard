@@ -59,6 +59,7 @@
 
 
 <script>
+import firebase from 'firebase'
 export default {
  data: () => ({
   drawer: false,
@@ -75,8 +76,12 @@ export default {
    ]
  }),
  methods: {
-  async logout() {
-    await this.$store.dispatch('destroyToken')
+  logout() {
+    firebase.auth().signOut().then(() => {
+      this.$router.replace('login')
+    }).catch(err => {
+      this.errorMessage = err.message
+    })
   },
   async submitFeedback() {
     const response = await this.$store.dispatch('submitFeedback',{

@@ -38,14 +38,12 @@
 
 <script>
 import Navigation from '../components/Navigation'
+import firebase from 'firebase'
 export default {
     components: {
         Navigation,
     },
     computed: {
-        loggedIn() {
-            return this.$store.getters.loggedIn
-        }
     },
     data: () => ({
         email: '',
@@ -53,17 +51,14 @@ export default {
         errorMessage: '',
     }),
     methods: {
-        async login() {
-            this.$store.dispatch('retrieveToken', {
-                email: this.email,
-                password: this.password,
-            })
-              .then(response => {
-                  this.$router.push('/resume')
-              })
-              .catch(err => {
-                  this.errorMessage = err.response.data
-              })
+        login() {
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then((user) => {
+                    this.$router.replace('resume')
+                }).catch((err) => {
+                    alert('Oops. ' + err.message)
+                    this.errorMessage = err.message
+                }
+            );
         }
     }
 }

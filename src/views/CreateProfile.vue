@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import AuthService from '../services/AuthService'
+import firebase from 'firebase'
 
 export default {
     components: {
@@ -61,31 +61,15 @@ export default {
         errorMessage: "",
     }),
     methods: {
-        async createProfile() {
-            const userData = {
-                orgCode: this.orgCode,
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                password: this.password
-            }
-
-            await AuthService.createMember(userData)
-            .then(response => {
-                this.$store.dispatch('retrieveToken', {
-                    email: this.email,
-                    password: this.password,
-                })
-                .then(response => {
-                    this.$router.push('/resume')
-                })
-                .catch(err => {
-                    console.log("failed to login")
-                })
-            })
-            .catch(error => {
-                this.errorMessage = error.response.data
-            })
+        createProfile() {
+            firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+          user => {
+            this.$router.replace('resume')
+          },
+          err => {
+            alert('Oops. ' + err.message)
+          }
+        );
         }
     }
 }
