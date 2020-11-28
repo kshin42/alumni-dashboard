@@ -1,0 +1,91 @@
+API endpoint: http://localhost:8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+Nov 14, 2020 9:19:58 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:19:59 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Nov 14, 2020 9:22:10 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Nov 14, 2020 9:22:11 AM com.google.cloud.datastore.emulator.impl.events.FunctionsEmulatorEventPublisher sendHttpRequest
+WARNING: Unsuccessful HTTP response when publishing event for projects/alumni-dashboard-1586121981449/triggers/makeUppercase: 500 Internal Server Error
+TypeError: Cannot read property 'toUpperCase' of undefined
+    at /Users/ce.123-ks/go/src/alumni-dashboard/functions/index.js:15:36
+    at cloudFunction (/Users/ce.123-ks/go/src/alumni-dashboard/functions/node_modules/firebase-functions/lib/cloud-functions.js:134:23)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:601:20
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:586:19
+    at Generator.next (<anonymous>)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:4:12)
+    at runFunction (/Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:583:12)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:600:15
+Nov 14, 2020 9:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:43 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:46 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:22:46 AM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose
+INFO: channel closed
+Nov 14, 2020 9:26:53 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:26:53 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /sockjs-node/info?t=1605364013865
+Nov 14, 2020 9:27:54 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Nov 14, 2020 9:27:55 AM com.google.cloud.datastore.emulator.impl.events.FunctionsEmulatorEventPublisher sendHttpRequest
+WARNING: Unsuccessful HTTP response when publishing event for projects/alumni-dashboard-1586121981449/triggers/makeUppercase: 500 Internal Server Error
+TypeError: Cannot read property 'toUpperCase' of undefined
+    at /Users/ce.123-ks/go/src/alumni-dashboard/functions/index.js:19:34
+    at cloudFunction (/Users/ce.123-ks/go/src/alumni-dashboard/functions/node_modules/firebase-functions/lib/cloud-functions.js:134:23)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:601:20
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:586:19
+    at Generator.next (<anonymous>)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (/Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:4:12)
+    at runFunction (/Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:583:12)
+    at /Users/ce.123-ks/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:600:15
+Nov 14, 2020 9:28:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:30 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:31 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:28:31 AM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose
+INFO: channel closed
+Nov 14, 2020 9:29:19 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Nov 14, 2020 9:29:20 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Nov 14, 2020 9:29:25 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:29:25 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:29:25 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:29:26 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:29:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Nov 14, 2020 9:30:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+*** shutting down gRPC server since JVM is shutting down
+*** server shut down
