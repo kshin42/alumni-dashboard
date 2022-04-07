@@ -14,10 +14,12 @@ func homepage(w http.ResponseWriter, r *http.Request) {
 
 func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
+	router.HandleFunc("/dbsetup", SetUpDB).Methods("GET")
+
 	router.HandleFunc("/", homepage).Methods("GET")
 	router.HandleFunc("/createMember", CreateMember)
 
-	log.Fatal(http.ListenAndServe(":8081", router))
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
 
 func main() {

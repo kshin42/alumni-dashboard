@@ -1,34 +1,32 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 var db *gorm.DB
 
-type Login struct {
-	Id           int
-	Email        string
-	PasswordHash string
-	FirstName    string
-	LastName     string
-}
-
 func CreateMember(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("sqlite3", "telam.db")
+	dsn := "root:root@tcp(localhost:3306)/dev?charset=utf8mb4&parseTime=True&loc=Local"
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println("Error: " + err.Error())
+		fmt.Fprintf(w, "can't connect to db")
 	}
 
-	defer db.Close()
+	l := Login{
+		Email:        "test@test.com",
+		PasswordHash: "aaaaa",
+		FirstName:    "Ftest",
+		LastName:     "Ltest",
+	}
 
-	var login Login
-	db.Find(&login)
-	json.NewEncoder(w).Encode(login)
+	db.Create(&l)
+
+	fmt.Fprintf(w, "created record: %v", l)
 
 }
