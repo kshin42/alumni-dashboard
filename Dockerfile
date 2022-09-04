@@ -4,7 +4,7 @@ WORKDIR /src
 EXPOSE 8080 3306 3000
 
 # Install Golang
-RUN apt-get update && apt-get install -y curl jq git
+RUN apt-get update && apt-get install -y curl jq git fish
 RUN curl -OL https://golang.org/dl/go1.18.linux-amd64.tar.gz
 RUN mv go1.18.linux-amd64.tar.gz /usr/local/
 RUN tar -xf /usr/local/go1.18.linux-amd64.tar.gz -C /usr/local

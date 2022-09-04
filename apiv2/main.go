@@ -17,7 +17,7 @@ func handleRequests() {
 	router.HandleFunc("/dbsetup", SetUpDB).Methods("GET")
 
 	router.HandleFunc("/", homepage).Methods("GET")
-	router.HandleFunc("/createMember", CreateMember)
+	router.HandleFunc("/member", CreateMember).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":3000", router))
 }
