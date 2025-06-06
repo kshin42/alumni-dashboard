@@ -1,7 +1,6 @@
 build:
 	$(MAKE) clean
 	env GOOS=linux go build .
-	zip main.zip login
 clean:
 	rm -f main.zip login
 # push:

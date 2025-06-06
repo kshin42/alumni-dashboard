@@ -1,8 +1,9 @@
 package common
 
 import (
-	"bytes"
+	"fmt"
 	"encoding/json"
+	"net/http"
 
 	"github.com/rs/zerolog/log"
 )
@@ -27,30 +28,21 @@ type Header struct {
 	Allow                    string `json:"Allow"`
 }
 
-func CreateResponse(statusCode int, body string, error error) (*Response, error) {
-	h := Header{
-		ContentType: "application/json",
-		Allow:       "GET, PUT, POST, DELETE, OPTIONS",
-		AllowControlAllowHeaders: "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token",
-		AllowControlAllowOrigin:  "*",
-	}
-	resp := &Response{
-		StatusCode:        statusCode,
-		StatusDescription: "",
-		IsBase64Encoced:   false,
-		Headers:           h,
-		Body:              body,
-	}
-
-	b := new(bytes.Buffer)
-	json.NewEncoder(b).Encode(resp)
-
-	return resp, error
+func CreateResponse(w http.ResponseWriter, statusCode int, body string, error error) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Allow", "GET, PUT, POST, DELETE, OPTIONS")
+	
+	w.WriteHeader(statusCode)
+	
+	fmt.Fprintln(w, body)
 }
 
-func ParseRequest(request json.RawMessage) (Request, error) {
+func ParseRequest(request  *http.Request) (Request, error) {
+	decoder := json.NewDecoder(request.Body)
 	var req Request
-	err := json.Unmarshal(request, &req)
+	err := decoder.Decode(&req)
 	if err != nil {
 		log.Error().Msg("Error unmarshalling request")
 		return req, err

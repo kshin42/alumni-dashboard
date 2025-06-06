@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"net/http"
 
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/rs/zerolog/log"
 
@@ -32,27 +32,28 @@ type Session struct {
 }
 
 func main() {
-	lambda.Start(RespondLambda)
+	http.HandleFunc("/login", loginHandler)
+	http.ListenAndServe(":8080",nil)
 }
 
-func RespondLambda(request json.RawMessage) (*cm.Response, error) {
-	req, err := cm.ParseRequest(request)
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	req, err := cm.ParseRequest(r)
 	if err != nil {
 		log.Error().Msgf("Error parsing request with: %s", err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	var reqBody RequestBody
 	err = json.Unmarshal([]byte(fmt.Sprintf("%v", req.Body)), &reqBody)
 	if err != nil {
 		log.Error().Msgf("Error unmarshalling request body with: %s", err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	svc, err := cm.GetDBClient()
 	if err != nil {
 		log.Error().Msgf("Error getting DB Client for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(500, "User Not Found", nil)
+		cm.CreateResponse(w, 500, "User Not Found", nil)
 	}
 
 	// Check if user exists for the org
@@ -63,28 +64,28 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	result, err := cm.CheckExistingItem(item, svc)
 	if err != nil {
 		log.Error().Msgf("Error while checking user for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 	if len(result.Item) == 0 {
 		log.Error().Msgf("User doesn't exist: %s", reqBody.Email)
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	// Check if given password hash matches hash in db
 	var user User
 	if err = dynamodbattribute.UnmarshalMap(result.Item, &user); err != nil {
 		log.Error().Msgf("Error unmarshalling dynamo response for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	hashedPass, err := cm.GenerateHash(reqBody.Password, user.PasswordHash)
 	if err != nil {
 		log.Error().Msgf("Error hashing password for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 	if hashedPass != user.PasswordHash {
 		log.Error().Msgf("Password does not match for: %s", reqBody.Email)
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	// Generate session token and store it in DB
@@ -92,7 +93,7 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	token := base64.RawStdEncoding.EncodeToString(tokenBytes)
 	if err != nil {
 		log.Error().Msgf("Error generating hash for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
 	var session Session
@@ -103,8 +104,8 @@ func RespondLambda(request json.RawMessage) (*cm.Response, error) {
 	err = cm.PutItem(session, svc)
 	if err != nil {
 		log.Error().Msgf("Error creating sessions for: %s with %s", reqBody.Email, err.Error())
-		return cm.CreateResponse(400, "User Not Found", nil)
+		cm.CreateResponse(w, 400, "User Not Found", nil)
 	}
 
-	return cm.CreateResponse(200, token, nil)
+	cm.CreateResponse(w, 200, token, nil)
 }
